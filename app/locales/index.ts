@@ -77,7 +77,9 @@ export default fallbackLang as LocaleType;
 
 function getItem(key: string) {
   try {
-    return localStorage.getItem(key);
+    const lang = localStorage.getItem(key) || "tw";
+    setItem(LANG_KEY, lang);
+    return lang;
   } catch {
     return null;
   }
