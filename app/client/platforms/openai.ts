@@ -105,7 +105,7 @@ export class ChatGPTApi implements LLMApi {
         };
 
         controller.signal.onabort = finish;
-
+        // const CHAT_PATH = 'https://gptnext.porthub.app/' + chatPath
         fetchEventSource(chatPath, {
           ...chatPayload,
           async onopen(res) {
