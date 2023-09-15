@@ -118,7 +118,7 @@ export function SideBar(props: { className?: string }) {
     >
       <div className={styles["sidebar-header"]} data-tauri-drag-region>
         <div className={styles["sidebar-title"]} data-tauri-drag-region>
-          PorthubGPT Next
+          PortGPT Mask
         </div>
         <div className={styles["sidebar-sub-title"]}>
           Build your own AI assistant.
