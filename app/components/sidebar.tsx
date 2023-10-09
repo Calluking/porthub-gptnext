@@ -136,18 +136,37 @@ export function SideBar(props: { className?: string }) {
       </div>
 
       <div className={styles["sidebar-header-bar"]}>
-        <IconButton
+        {/* <IconButton
           icon={<MaskIcon />}
           text={shouldNarrow ? undefined : Locale.Mask.Name}
           className={styles["sidebar-bar-button"]}
           onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
           shadow
-        />
-        <IconButton
+        /> */}
+        {/* <IconButton
           icon={<PluginIcon />}
           text={shouldNarrow ? undefined : Locale.Plugin.Name}
           className={styles["sidebar-bar-button"]}
           onClick={() => showToast(Locale.WIP)}
+          shadow
+        /> */}
+        <IconButton
+          text={"選擇面具"}
+          className={styles["sidebar-bar-button"]}
+          onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
+          shadow
+        />
+        <IconButton
+          text={"新建對話"}
+          className={styles["sidebar-bar-button"]}
+          onClick={() => {
+            if (config.dontShowMaskSplashScreen) {
+              chatStore.newSession();
+              navigate(Path.Chat);
+            } else {
+              navigate(Path.NewChat);
+            }
+          }}
           shadow
         />
       </div>
@@ -163,7 +182,12 @@ export function SideBar(props: { className?: string }) {
         <ChatList narrow={shouldNarrow} />
       </div>
 
-      <div className={styles["sidebar-tail"]}>
+      <div
+        className={styles["sidebar-tail"]}
+        style={{
+          justifyContent: "center",
+        }}
+      >
         <div className={styles["sidebar-actions"]}>
           <div className={styles["sidebar-action"] + " " + styles.mobile}>
             <IconButton
@@ -177,7 +201,8 @@ export function SideBar(props: { className?: string }) {
           </div>
           <div className={styles["sidebar-action"]}>
             <Link to={Path.Settings}>
-              <IconButton icon={<SettingsIcon />} shadow />
+              {/* <IconButton icon={<SettingsIcon />} shadow /> */}
+              <IconButton text="設置" shadow />
             </Link>
           </div>
           {/* <div className={styles["sidebar-action"]}>
@@ -187,7 +212,7 @@ export function SideBar(props: { className?: string }) {
           </div> */}
         </div>
         <div>
-          <IconButton
+          {/* <IconButton
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
@@ -199,7 +224,7 @@ export function SideBar(props: { className?: string }) {
               }
             }}
             shadow
-          />
+          /> */}
         </div>
       </div>
 

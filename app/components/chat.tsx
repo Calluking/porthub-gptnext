@@ -441,7 +441,7 @@ export function ChatActions(props: {
 
   return (
     <div className={styles["chat-input-actions"]}>
-      {couldStop && (
+      {/* {couldStop && (
         <ChatAction
           onClick={stopAll}
           text={Locale.Chat.InputActions.Stop}
@@ -454,16 +454,16 @@ export function ChatActions(props: {
           text={Locale.Chat.InputActions.ToBottom}
           icon={<BottomIcon />}
         />
-      )}
-      {props.hitBottom && (
+      )} */}
+      {/* {props.hitBottom && (
         <ChatAction
           onClick={props.showPromptModal}
           text={Locale.Chat.InputActions.Settings}
           icon={<SettingsIcon />}
         />
-      )}
+      )} */}
 
-      <ChatAction
+      {/* <ChatAction
         onClick={nextTheme}
         text={Locale.Chat.InputActions.Theme[theme]}
         icon={
@@ -477,14 +477,14 @@ export function ChatActions(props: {
             ) : null}
           </>
         }
-      />
+      /> */}
 
       <ChatAction
         onClick={props.showPromptHints}
         text={Locale.Chat.InputActions.Prompt}
         icon={<PromptIcon />}
       />
-
+      {/*
       <ChatAction
         onClick={() => {
           navigate(Path.Masks);
@@ -531,7 +531,7 @@ export function ChatActions(props: {
             showToast(s[0]);
           }}
         />
-      )}
+      )} */}
     </div>
   );
 }
@@ -935,7 +935,8 @@ function _Chat() {
 
     const isTouchTopEdge = e.scrollTop <= edgeThreshold;
     const isTouchBottomEdge = bottomHeight >= e.scrollHeight - edgeThreshold;
-    const isHitBottom = bottomHeight >= e.scrollHeight - (isMobileScreen ? 0 : 10);
+    const isHitBottom =
+      bottomHeight >= e.scrollHeight - (isMobileScreen ? 0 : 10);
 
     const prevPageMsgIndex = msgRenderIndex - CHAT_PAGE_SIZE;
     const nextPageMsgIndex = msgRenderIndex + CHAT_PAGE_SIZE;
@@ -1044,7 +1045,8 @@ function _Chat() {
           {!isMobileScreen && (
             <div className="window-action-button">
               <IconButton
-                icon={<RenameIcon />}
+                // icon={<RenameIcon />}
+                text="面具設定"
                 bordered
                 onClick={() => setIsEditingMessage(true)}
               />
@@ -1052,7 +1054,8 @@ function _Chat() {
           )}
           <div className="window-action-button">
             <IconButton
-              icon={<ExportIcon />}
+              // icon={<ExportIcon />}
+              text="分享匯出"
               bordered
               title={Locale.Chat.Actions.Export}
               onClick={() => {
@@ -1060,7 +1063,7 @@ function _Chat() {
               }}
             />
           </div>
-          {showMaxIcon && (
+          {/* {showMaxIcon && (
             <div className="window-action-button">
               <IconButton
                 icon={config.tightBorder ? <MinIcon /> : <MaxIcon />}
@@ -1072,7 +1075,7 @@ function _Chat() {
                 }}
               />
             </div>
-          )}
+          )} */}
         </div>
 
         <PromptToast
@@ -1252,7 +1255,7 @@ function _Chat() {
             }}
           />
           <IconButton
-            icon={<SendWhiteIcon />}
+            // icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
             className={styles["chat-input-send"]}
             type="primary"
