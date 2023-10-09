@@ -445,8 +445,61 @@ export function MaskPage() {
               {Locale.Mask.Page.SubTitle(allMasks.length)}
             </div>
           </div>
-
           <div className="window-actions">
+            <div
+              className={styles["actions-mask-filter"]}
+              style={{
+                display: "flex",
+              }}
+            >
+              <input
+                type="text"
+                className={styles["search-bar"]}
+                style={{
+                  textAlign: "left",
+                }}
+                placeholder={Locale.Mask.Page.Search}
+                autoFocus
+                onInput={(e) => onSearch(e.currentTarget.value)}
+              />
+              <Select
+                className={styles["mask-filter-lang"]}
+                style={{ margin: "0 10px", padding: "0 10px" }}
+                value={filterLang ?? Locale.Settings.Lang.All}
+                onChange={(e) => {
+                  const value = e.currentTarget.value;
+                  if (value === Locale.Settings.Lang.All) {
+                    setFilterLang(undefined);
+                  } else {
+                    setFilterLang(value as Lang);
+                  }
+                }}
+              >
+                <option key="all" value={Locale.Settings.Lang.All}>
+                  {Locale.Settings.Lang.All}
+                </option>
+                {AllLangs.map((lang) => (
+                  <option value={lang} key={lang}>
+                    {ALL_LANG_OPTIONS[lang]}
+                  </option>
+                ))}
+              </Select>
+
+              <IconButton
+                className={styles["mask-create"]}
+                // icon={<AddIcon />}
+                // text={Locale.Mask.Page.Create}
+                text={"新增面具"}
+                bordered
+                onClick={() => {
+                  const createdMask = maskStore.create();
+                  setEditingMaskId(createdMask.id);
+                }}
+              />
+            </div>
+          </div>
+
+          {/* <div className="window-actions">
             <div className="window-action-button">
               <IconButton
                 icon={<DownloadIcon />}
@@ -468,11 +521,11 @@ export function MaskPage() {
                 onClick={() => navigate(-1)}
               />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className={styles["mask-page-body"]}>
-          <div className={styles["mask-filter"]}>
+          {/* <div className={styles["mask-filter"]}>
             <input
               type="text"
               className={styles["search-bar"]}
@@ -512,9 +565,14 @@ export function MaskPage() {
                 setEditingMaskId(createdMask.id);
               }}
             />
-          </div>
+          </div> */}
 
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
             {masks.map((m) => (
               <div className={styles["mask-item"]} key={m.id}>
                 <div className={styles["mask-header"]}>
@@ -528,9 +586,51 @@ export function MaskPage() {
                         ALL_LANG_OPTIONS[m.lang]
                       } / ${m.modelConfig.model}`}
                     </div>
+                    <div
+                      className={styles["mask-actions"]}
+                      style={{
+                        marginTop: "10px",
+                        gap: "5px",
+                      }}
+                    >
+                      <IconButton
+                        icon={<AddIcon />}
+                        text={Locale.Mask.Item.Chat}
+                        onClick={() => {
+                          chatStore.newSession(m);
+                          navigate(Path.Chat);
+                        }}
+                      />
+                      {m.builtin ? (
+                        <IconButton
+                          icon={<EyeIcon />}
+                          text={Locale.Mask.Item.View}
+                          onClick={() => setEditingMaskId(m.id)}
+                        />
+                      ) : (
+                        <IconButton
+                          icon={<EditIcon />}
+                          text={Locale.Mask.Item.Edit}
+                          onClick={() => setEditingMaskId(m.id)}
+                        />
+                      )}
+                      {!m.builtin && (
+                        <IconButton
+                          icon={<DeleteIcon />}
+                          text={Locale.Mask.Item.Delete}
+                          onClick={async () => {
+                            if (
+                              await showConfirm(Locale.Mask.Item.DeleteConfirm)
+                            ) {
+                              maskStore.delete(m.id);
+                            }
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className={styles["mask-actions"]}>
+                {/* <div className={styles["mask-actions"]}>
                   <IconButton
                     icon={<AddIcon />}
                     text={Locale.Mask.Item.Chat}
@@ -563,7 +663,7 @@ export function MaskPage() {
                       }}
                     />
                   )}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
