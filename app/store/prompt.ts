@@ -4,7 +4,8 @@ import Fuse from "fuse.js";
 import { getLang } from "../locales";
 import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
-import { getPromptStoreRequest } from "../api/contants";
+import { useDebouncedCallback } from "use-debounce";
+import { setPromptStoreRequest } from "../api/contants";
 
 export interface Prompt {
   id: string;
@@ -63,28 +64,19 @@ export const SearchService = {
   },
 };
 
-const initPromptStore = async () => {
-  const res = await getPromptStoreRequest();
-  console.log("res...", res);
+// const getPromptStore = useDebouncedCallback(async () => {
+//   const store = localStorage.getItem("prompt-store") || "";
+//   const res = await setPromptStoreRequest(store);
+//   console.log('save prompt store:', res);
 
-  const flag = true;
-  if (flag) {
-    return {
-      "Itx3GtOs-EEolPnn4CdFp": {
-        id: "Itx3GtOs-EEolPnn4CdFp",
-        createdAt: 1696857025047,
-        title: "Empty Prompt111",
-        content: "Empty Prompt Content1111",
-        isUser: true,
-      },
-    };
-  } else {
-    return {};
-  }
-};
+//   console.log("prompt-store:", JSON.parse(store));
+// }, 1000, { maxWait: 2000 })
 
-const getPromptStore = () => {
+const getPromptStore = async () => {
   const store = localStorage.getItem("prompt-store") || "";
+  const res = await setPromptStoreRequest(store);
+  console.log("save prompt store:", res);
+
   console.log("prompt-store:", JSON.parse(store));
 };
 
@@ -93,8 +85,8 @@ export const usePromptStore = create<PromptStore>()(
     (set, get) => ({
       counter: 0,
       latestId: 0,
-      // prompts: {},
-      prompts: initPromptStore(),
+      prompts: {},
+      // prompts: initPromptStore(),
 
       add(prompt) {
         const prompts = get().prompts;

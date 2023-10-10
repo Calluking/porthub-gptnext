@@ -88,6 +88,7 @@ import { ChatCommandPrefix, useChatCommand, useCommand } from "../command";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
+import { getPromptStoreRequest, getChatStoreRequest } from "../api/contants";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -628,6 +629,30 @@ function _Chat() {
     100,
     { leading: true, trailing: true },
   );
+
+  // init user prompt
+  useEffect(() => {
+    getPromptStoreRequest().then((res: any) => {
+      if (res.code === 200 && res.data) {
+        const data = JSON.parse(res.data);
+        console.log("data.....", data);
+        promptStore.prompts = data?.state?.prompts || {};
+      }
+    });
+  }, []);
+
+  // init user chat
+  useEffect(() => {
+    console.log("int chat:", chatStore.sessions);
+    getChatStoreRequest().then((res: any) => {
+      if (res.code === 200 && res.data) {
+        const data = JSON.parse(res.data);
+        console.log("data.....", data);
+        // promptStore.prompts = data?.state?.prompts || {}
+        console.log("int chat2:", chatStore.sessions);
+      }
+    });
+  }, []);
 
   // auto grow input
   const [inputRows, setInputRows] = useState(2);

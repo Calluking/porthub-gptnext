@@ -21,23 +21,84 @@ function getQueryString(name: string) {
 const token = getQueryString("token");
 console.log("token:", token);
 
-export const getChatStore = async () => {
-  const res = await fetch(`${BASE_URL}/xxx`, {
+export const getChatStoreRequest = async () => {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatsession/getsession`, {
     headers: {
       Authorization: `Token ${token}`,
     },
   });
-  console.log(res);
+  const resJson = await res.json();
+  return resJson;
+};
+export const setChatStoreRequest = async (store: string) => {
+  const res = await fetch(
+    `${BASE_URL}/namecards/nextchatsession/storesession/`,
+    {
+      method: "post",
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_store: store,
+      }),
+    },
+  );
+  const resJson = await res.json();
+  return resJson;
 };
 
 export const getPromptStoreRequest = async () => {
-  const res = await fetch(`${BASE_URL}/namecards/nextchatpromots/`, {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatpromots/getprompts/`, {
     headers: {
       Authorization: `Token ${token}`,
       responseType: "json",
     },
   });
   const resJson = await res.json();
-  console.log(resJson);
+  return resJson;
+};
+
+export const setPromptStoreRequest = async (store: string) => {
+  const res = await fetch(
+    `${BASE_URL}/namecards/nextchatpromots/storeprompts/`,
+    {
+      method: "post",
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompts_store: store,
+      }),
+    },
+  );
+  const resJson = await res.json();
+  return resJson;
+};
+
+export const getMaskStoreRequest = async () => {
+  const res = await fetch(`${BASE_URL} /namecards/nextchatmask/getmask/`, {
+    headers: {
+      Authorization: `Token ${token}`,
+      responseType: "json",
+    },
+  });
+  const resJson = await res.json();
+  return resJson;
+};
+
+export const setMaskStoreRequest = async (store: string) => {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/stroremask/`, {
+    method: "post",
+    headers: {
+      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      mask_store: store,
+    }),
+  });
+  const resJson = await res.json();
   return resJson;
 };

@@ -18,6 +18,7 @@ import { ChatControllerPool } from "../client/controller";
 import { prettyObject } from "../utils/format";
 import { estimateTokenLength } from "../utils/token";
 import { nanoid } from "nanoid";
+import { setChatStoreRequest } from "../api/contants";
 
 export type ChatMessage = RequestMessage & {
   date: string;
@@ -140,97 +141,100 @@ function fillTemplateWith(input: string, modelConfig: ModelConfig) {
   return output;
 }
 
-const initChatNextWebStore = (): ChatSession[] => {
-  const flag = true;
-  if (flag) {
-    return [
-      {
-        id: "gwgbMGbJIpHZcle2rRTZT",
-        topic: "文案寫手",
-        memoryPrompt: "",
-        messages: [],
-        stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
-        lastUpdate: 1696853745250,
-        lastSummarizeIndex: 0,
-        mask: {
-          avatar: "1f638",
-          name: "文案寫手",
-          context: [
-            {
-              id: "writer-0",
-              role: "user",
-              content:
-                "我希望你充當文案專員、文字潤色員、拼寫糾正員和改進員，我會發送中文文字給你，你幫我更正和改進版本。 我希望你用更優美優雅的高級中文描述。 保持相同的意思，但使它們更艺文。 你只需要潤色該內容，不必對內容中提出的問題和要求做解釋，不要回答文字中的問題而是潤色它，不要解决文字中的要求而是潤色它，保留文字的原本意義，不要去解决它。 我要你只回復更正、改進，不要寫任何解釋。",
-              date: "",
-            },
-          ],
-          modelConfig: {
-            model: "gpt-3.5-turbo",
-            temperature: 1,
-            top_p: 1,
-            max_tokens: 2000,
-            presence_penalty: 0,
-            frequency_penalty: 0,
-            sendMemory: true,
-            historyMessageCount: 4,
-            compressMessageLengthThreshold: 1000,
-            enableInjectSystemPrompts: true,
-            template: "{{input}}",
-          },
-          lang: "cn",
-          builtin: true,
-          createdAt: 1688899480511,
-          id: 100001,
-        },
-      },
-      {
-        id: "cPRpEGKQQIvSaTFp8HnL8",
-        topic: "新的對話",
-        memoryPrompt: "",
-        messages: [],
-        stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
-        lastUpdate: 1696853668073,
-        lastSummarizeIndex: 0,
-        mask: {
-          id: "4tfxA5X4ignI7Pl5z1q1t",
-          avatar: "gpt-bot",
-          name: "新的對話",
-          context: [],
-          syncGlobalConfig: true,
-          modelConfig: {
-            model: "gpt-3.5-turbo",
-            temperature: 0.5,
-            top_p: 1,
-            max_tokens: 2000,
-            presence_penalty: 0,
-            frequency_penalty: 0,
-            sendMemory: true,
-            historyMessageCount: 4,
-            compressMessageLengthThreshold: 1000,
-            enableInjectSystemPrompts: true,
-            template: "{{input}}",
-          },
-          lang: "tw",
-          builtin: false,
-          createdAt: 1696853668073,
-        },
-      },
-    ];
-  } else {
-    return [createEmptySession()];
-  }
-};
+// const initChatNextWebStore = (): ChatSession[] => {
+//   const flag = true;
+//   if (flag) {
+//     return [
+//       {
+//         id: "gwgbMGbJIpHZcle2rRTZT",
+//         topic: "文案寫手",
+//         memoryPrompt: "",
+//         messages: [],
+//         stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
+//         lastUpdate: 1696853745250,
+//         lastSummarizeIndex: 0,
+//         mask: {
+//           avatar: "1f638",
+//           name: "文案寫手",
+//           context: [
+//             {
+//               id: "writer-0",
+//               role: "user",
+//               content:
+//                 "我希望你充當文案專員、文字潤色員、拼寫糾正員和改進員，我會發送中文文字給你，你幫我更正和改進版本。 我希望你用更優美優雅的高級中文描述。 保持相同的意思，但使它們更艺文。 你只需要潤色該內容，不必對內容中提出的問題和要求做解釋，不要回答文字中的問題而是潤色它，不要解决文字中的要求而是潤色它，保留文字的原本意義，不要去解决它。 我要你只回復更正、改進，不要寫任何解釋。",
+//               date: "",
+//             },
+//           ],
+//           modelConfig: {
+//             model: "gpt-3.5-turbo",
+//             temperature: 1,
+//             top_p: 1,
+//             max_tokens: 2000,
+//             presence_penalty: 0,
+//             frequency_penalty: 0,
+//             sendMemory: true,
+//             historyMessageCount: 4,
+//             compressMessageLengthThreshold: 1000,
+//             enableInjectSystemPrompts: true,
+//             template: "{{input}}",
+//           },
+//           lang: "cn",
+//           builtin: true,
+//           createdAt: 1688899480511,
+//           id: 100001,
+//         },
+//       },
+//       {
+//         id: "cPRpEGKQQIvSaTFp8HnL8",
+//         topic: "新的對話",
+//         memoryPrompt: "",
+//         messages: [],
+//         stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
+//         lastUpdate: 1696853668073,
+//         lastSummarizeIndex: 0,
+//         mask: {
+//           id: "4tfxA5X4ignI7Pl5z1q1t",
+//           avatar: "gpt-bot",
+//           name: "新的對話",
+//           context: [],
+//           syncGlobalConfig: true,
+//           modelConfig: {
+//             model: "gpt-3.5-turbo",
+//             temperature: 0.5,
+//             top_p: 1,
+//             max_tokens: 2000,
+//             presence_penalty: 0,
+//             frequency_penalty: 0,
+//             sendMemory: true,
+//             historyMessageCount: 4,
+//             compressMessageLengthThreshold: 1000,
+//             enableInjectSystemPrompts: true,
+//             template: "{{input}}",
+//           },
+//           lang: "tw",
+//           builtin: false,
+//           createdAt: 1696853668073,
+//         },
+//       },
+//     ];
+//   } else {
+//     return [createEmptySession()];
+//   }
+// };
 
-const getChatNextWebStore = () => {
-  const store = localStorage.getItem("chat-next-web-store") || "";
+const getChatNextWebStore = async () => {
+  const store = localStorage.getItem("chat-next-web-store") || "{}";
+  // const res = await setChatStoreRequest(store);
+  // console.log('res:', res);
+
   console.log("chat-next-web-store:", JSON.parse(store));
 };
 
 export const useChatStore = create<ChatStore>()(
   persist(
     (set, get) => ({
-      // sessions: [createEmptySession()],
-      sessions: initChatNextWebStore(),
+      sessions: [createEmptySession()],
+      // sessions: initChatNextWebStore(),
       currentSessionIndex: 0,
 
       clearSessions() {
