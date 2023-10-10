@@ -616,6 +616,7 @@ function _Chat() {
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
+  const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { submitKey, shouldSubmit } = useSubmitHandler();
   const { scrollRef, setAutoScroll, scrollDomToBottom } = useScrollToBottom();
@@ -635,43 +636,63 @@ function _Chat() {
     { leading: true, trailing: true },
   );
 
+  function getQueryString(name: string) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+      return unescape(r[2]);
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    const token = getQueryString("token");
+    if (token) {
+      setToken(token.toString());
+      localStorage.setItem("PORTHUB_TOKEN", token.toString());
+    }
+  }, []);
+
   // init user prompt
   useEffect(() => {
-    getPromptStoreRequest().then((res: any) => {
-      if (res.code === 200 && res.data) {
-        const data = JSON.parse(res.data);
-        console.log("data.....", data);
-        promptStore.prompts = data?.state?.prompts || {};
-      }
-    });
-  }, []);
+    token &&
+      getPromptStoreRequest().then((res: any) => {
+        if (res.code === 200 && res.data) {
+          const data = JSON.parse(res.data);
+          console.log("data.....", data);
+          promptStore.prompts = data?.state?.prompts || {};
+        }
+      });
+  }, [token]);
 
   // init user chat
   useEffect(() => {
     console.log("int chat:", chatStore.sessions);
-    getChatStoreRequest().then((res: any) => {
-      if (res.code === 200 && res.data) {
-        const data = JSON.parse(res.data);
-        console.log("data.....", data);
+    token &&
+      getChatStoreRequest().then((res: any) => {
+        if (res.code === 200 && res.data) {
+          const data = JSON.parse(res.data);
+          console.log("data.....", data);
 
-        // chatStore.sessions = data?.state?.sessions || [];
-        console.log("int chat2:", chatStore.sessions);
-      }
-    });
-  }, []);
+          // chatStore.sessions = data?.state?.sessions || [];
+          console.log("int chat2:", chatStore.sessions);
+        }
+      });
+  }, [token]);
 
   // init mask
   useEffect(() => {
     console.log("int mask:", maskStore.masks);
-    getMaskStoreRequest().then((res: any) => {
-      if (res.code === 200 && res.data) {
-        const data = JSON.parse(res.data);
-        console.log("data.....", data);
-        maskStore.masks = data?.state?.masks || {};
-        console.log("int mask2:", maskStore.masks);
-      }
-    });
-  }, []);
+    token &&
+      getMaskStoreRequest().then((res: any) => {
+        if (res.code === 200 && res.data) {
+          const data = JSON.parse(res.data);
+          console.log("data.....", data);
+          maskStore.masks = data?.state?.masks || {};
+          console.log("int mask2:", maskStore.masks);
+        }
+      });
+  }, [token]);
 
   // auto grow input
   const [inputRows, setInputRows] = useState(2);
