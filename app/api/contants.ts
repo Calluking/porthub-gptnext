@@ -3,11 +3,11 @@ let BASE_URL = "https://dev-api.porthub.app";
 // const token = 'f14bba22dce1b55c0c10c6d3e614ce4769a52ab4'
 
 console.log("env:", env);
-console.log("location.href:", location.href);
+// console.log("location.href:", location.href);
 
-if (env === "production") {
-  BASE_URL = "https://api.porthub.app";
-}
+// if (env === "production") {
+//   BASE_URL = "https://api.porthub.app";
+// }
 
 function getQueryString(name: string) {
   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -89,7 +89,7 @@ export const getMaskStoreRequest = async () => {
 };
 
 export const setMaskStoreRequest = async (store: string) => {
-  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/stroremask/`, {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/storemask`, {
     method: "post",
     headers: {
       Authorization: `Token ${token}`,

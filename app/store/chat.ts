@@ -91,6 +91,7 @@ interface ChatStore {
   sessions: ChatSession[];
   currentSessionIndex: number;
   clearSessions: () => void;
+  setInitSessions: (sessions: any[]) => void;
   moveSession: (from: number, to: number) => void;
   selectSession: (index: number) => void;
   newSession: (mask?: Mask) => void;
@@ -234,7 +235,7 @@ export const useChatStore = create<ChatStore>()(
   persist(
     (set, get) => ({
       sessions: [createEmptySession()],
-      // sessions: initChatNextWebStore(),
+      // sessions: [],
       currentSessionIndex: 0,
 
       clearSessions() {
@@ -242,6 +243,14 @@ export const useChatStore = create<ChatStore>()(
           sessions: [createEmptySession()],
           currentSessionIndex: 0,
         }));
+      },
+      setInitSessions(sessions: any[]) {
+        set(() => {
+          return {
+            sessions: sessions,
+            currentSessionIndex: 0,
+          };
+        });
       },
 
       selectSession(index: number) {
