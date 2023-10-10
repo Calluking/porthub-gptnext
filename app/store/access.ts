@@ -33,7 +33,7 @@ console.log("[API] default openai url", DEFAULT_OPENAI_URL);
 export const useAccessStore = create<AccessControlStore>()(
   persist(
     (set, get) => ({
-      token: "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",
+      token: "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",
       accessCode: "",
       needCode: true,
       hideUserApiKey: false,
