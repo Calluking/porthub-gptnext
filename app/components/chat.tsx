@@ -88,7 +88,11 @@ import { ChatCommandPrefix, useChatCommand, useCommand } from "../command";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
-import { getPromptStoreRequest, getChatStoreRequest } from "../api/contants";
+import {
+  getPromptStoreRequest,
+  getChatStoreRequest,
+  getMaskStoreRequest,
+} from "../api/contants";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -602,6 +606,7 @@ export function EditMessageModal(props: { onClose: () => void }) {
 function _Chat() {
   type RenderMessage = ChatMessage & { preview?: boolean };
 
+  const maskStore = useMaskStore();
   const chatStore = useChatStore();
   const session = chatStore.currentSession();
   const config = useAppConfig();
@@ -648,8 +653,21 @@ function _Chat() {
       if (res.code === 200 && res.data) {
         const data = JSON.parse(res.data);
         console.log("data.....", data);
-        // promptStore.prompts = data?.state?.prompts || {}
+        chatStore.sessions = data?.state?.sessions || [];
         console.log("int chat2:", chatStore.sessions);
+      }
+    });
+  }, []);
+
+  // init mask
+  useEffect(() => {
+    console.log("int mask:", maskStore.masks);
+    getMaskStoreRequest().then((res: any) => {
+      if (res.code === 200 && res.data) {
+        const data = JSON.parse(res.data);
+        console.log("data.....", data);
+        maskStore.masks = data?.state?.masks || {};
+        console.log("int mask2:", maskStore.masks);
       }
     });
   }, []);

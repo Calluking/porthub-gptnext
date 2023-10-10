@@ -224,7 +224,7 @@ function fillTemplateWith(input: string, modelConfig: ModelConfig) {
 
 const getChatNextWebStore = async () => {
   const store = localStorage.getItem("chat-next-web-store") || "{}";
-  // const res = await setChatStoreRequest(store);
+  const res = await setChatStoreRequest(store);
   // console.log('res:', res);
 
   console.log("chat-next-web-store:", JSON.parse(store));

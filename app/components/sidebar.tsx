@@ -153,7 +153,8 @@ export function SideBar(props: { className?: string }) {
         <IconButton
           text={"選擇面具"}
           className={styles["sidebar-bar-button"]}
-          onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
+          // onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
+          onClick={() => navigate(Path.Masks, { state: { fromHome: true } })}
           shadow
         />
         <IconButton

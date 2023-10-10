@@ -40,7 +40,7 @@ export const setChatStoreRequest = async (store: string) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chat_store: store,
+        session_store: store,
       }),
     },
   );
@@ -78,7 +78,7 @@ export const setPromptStoreRequest = async (store: string) => {
 };
 
 export const getMaskStoreRequest = async () => {
-  const res = await fetch(`${BASE_URL} /namecards/nextchatmask/getmask/`, {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/getmask/`, {
     headers: {
       Authorization: `Token ${token}`,
       responseType: "json",

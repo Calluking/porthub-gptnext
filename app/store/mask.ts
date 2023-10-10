@@ -6,6 +6,7 @@ import { DEFAULT_TOPIC, ChatMessage } from "./chat";
 import { ModelConfig, useAppConfig } from "./config";
 import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
+import { setMaskStoreRequest } from "../api/contants";
 
 export type Mask = {
   id: string | number;
@@ -105,8 +106,9 @@ export const createEmptyMask = () =>
     createdAt: Date.now(),
   }) as Mask;
 
-const getMaskStore = () => {
+const getMaskStore = async () => {
   const store = localStorage.getItem("mask-store") || "";
+  const res = await setMaskStoreRequest(store);
   console.log("mask-store:", JSON.parse(store));
 };
 
