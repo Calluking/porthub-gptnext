@@ -5,7 +5,13 @@ export function getClientConfig() {
     // client side
     console.log('queryMeta("config"):', queryMeta("config"));
     if (!queryMeta("config")) {
-      return {};
+      return {
+        version: "v2.9.5",
+        commitDate: "1696927060000",
+        commitHash: "aedccd1c2382a5a37bb22ec0e1d6d8d9c2fa60bb",
+        buildMode: "standalone",
+        isApp: false,
+      };
     }
     return JSON.parse(queryMeta("config")) as BuildConfig;
   }

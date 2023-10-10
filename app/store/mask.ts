@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import { setMaskStoreRequest } from "../api/contants";
 
 export type Mask = {
-  id: string | number;
+  id: string;
   createdAt: number;
   avatar: string;
   name: string;
@@ -151,9 +151,9 @@ export const useMaskStore = create<MaskStore>()(
       get(id) {
         return get().masks[id ?? 1145141919810];
       },
-      getAll() {
+      getAll(): any {
         const userMasks = Object.values(get().masks).sort(
-          (a, b) => b.createdAt - a.createdAt,
+          (a: any, b: any) => b.createdAt - a.createdAt,
         );
         const config = useAppConfig.getState();
         if (config.hideBuiltinMasks) return userMasks;

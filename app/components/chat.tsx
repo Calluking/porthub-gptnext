@@ -653,7 +653,8 @@ function _Chat() {
       if (res.code === 200 && res.data) {
         const data = JSON.parse(res.data);
         console.log("data.....", data);
-        chatStore.sessions = data?.state?.sessions || [];
+
+        // chatStore.sessions = data?.state?.sessions || [];
         console.log("int chat2:", chatStore.sessions);
       }
     });
