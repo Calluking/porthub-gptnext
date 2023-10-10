@@ -182,12 +182,12 @@ export const useMaskStore = create<MaskStore>()(
 
         // migrate mask id to nanoid
         if (version < 3) {
-          Object.values(newState.masks).forEach((m) => (m.id = nanoid()));
+          Object.values(newState.masks).forEach((m: any) => (m.id = nanoid()));
         }
 
         if (version < 3.1) {
           const updatedMasks: Record<string, Mask> = {};
-          Object.values(newState.masks).forEach((m) => {
+          Object.values(newState.masks).forEach((m: any) => {
             updatedMasks[m.id] = m;
           });
           newState.masks = updatedMasks;
