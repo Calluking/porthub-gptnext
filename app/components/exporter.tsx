@@ -473,7 +473,7 @@ export function ImagePreviewer(props: {
         className={`${styles["preview-body"]} ${styles["default-theme"]}`}
         ref={previewRef}
       >
-        <div className={styles["chat-info"]}>
+        {/* <div className={styles["chat-info"]}>
           <div className={styles["logo"] + " no-dark"}>
             <NextImage
               src={ChatGptIcon.src}
@@ -511,7 +511,7 @@ export function ImagePreviewer(props: {
               ).toLocaleString()}
             </div>
           </div>
-        </div>
+        </div> */}
         {props.messages.map((m, i) => {
           return (
             <div

@@ -464,7 +464,7 @@ export function MaskPage() {
               />
               <Select
                 className={styles["mask-filter-lang"]}
-                style={{ margin: "0 10px", padding: "0 10px" }}
+                style={{ marginLeft: "10px" }}
                 value={filterLang ?? Locale.Settings.Lang.All}
                 onChange={(e) => {
                   const value = e.currentTarget.value;
@@ -485,7 +485,7 @@ export function MaskPage() {
                 ))}
               </Select>
 
-              <IconButton
+              {/* <IconButton
                 className={styles["mask-create"]}
                 // icon={<AddIcon />}
                 // text={Locale.Mask.Page.Create}
@@ -495,7 +495,7 @@ export function MaskPage() {
                   const createdMask = maskStore.create();
                   setEditingMaskId(createdMask.id);
                 }}
-              />
+              /> */}
             </div>
           </div>
 
@@ -566,7 +566,19 @@ export function MaskPage() {
               }}
             />
           </div> */}
-
+          <div className={styles["mask-filter"]}>
+            <IconButton
+              className={styles["mask-create"]}
+              // icon={<AddIcon />}
+              // text={Locale.Mask.Page.Create}
+              text={"新增面具"}
+              bordered
+              onClick={() => {
+                const createdMask = maskStore.create();
+                setEditingMaskId(createdMask.id);
+              }}
+            />
+          </div>
           <div
             style={{
               display: "flex",

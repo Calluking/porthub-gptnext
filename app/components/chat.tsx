@@ -1111,7 +1111,7 @@ function _Chat() {
             <div className="window-action-button">
               <IconButton
                 // icon={<RenameIcon />}
-                text="面具設定"
+                text="對話編輯"
                 bordered
                 onClick={() => setIsEditingMessage(true)}
               />
