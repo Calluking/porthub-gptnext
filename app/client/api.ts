@@ -126,10 +126,12 @@ export class ClientApi {
 export const api = new ClientApi();
 
 export function getHeaders() {
+  const token = localStorage.getItem("PORTHUB_TOKEN");
   const accessStore = useAccessStore.getState();
   let headers: Record<string, string> = {
     "Content-Type": "application/json",
     "x-requested-with": "XMLHttpRequest",
+    Authorization: `Token ${token}`,
   };
 
   const makeBearer = (token: string) => `Bearer ${token.trim()}`;
