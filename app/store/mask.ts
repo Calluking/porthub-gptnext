@@ -8,7 +8,7 @@ import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
 
 export type Mask = {
-  id: string;
+  id: string | number;
   createdAt: number;
   avatar: string;
   name: string;
@@ -20,8 +20,65 @@ export type Mask = {
   builtin: boolean;
 };
 
+const initMaskStore = (): any => {
+  const flag = true;
+  if (flag) {
+    return {
+      "1OWih9O5itqiQAwGLUTkH": {
+        id: "1OWih9O5itqiQAwGLUTkH",
+        avatar: "gpt-bot",
+        name: "lllll",
+        context: [],
+        syncGlobalConfig: true,
+        modelConfig: {
+          model: "gpt-3.5-turbo",
+          temperature: 0.5,
+          top_p: 1,
+          max_tokens: 2000,
+          presence_penalty: 0,
+          frequency_penalty: 0,
+          sendMemory: true,
+          historyMessageCount: 4,
+          compressMessageLengthThreshold: 1000,
+          enableInjectSystemPrompts: true,
+          template: "{{input}}",
+        },
+        lang: "tw",
+        builtin: false,
+        createdAt: 1696856255552,
+      },
+      he8VGbfDWol6mWr5IxH0f: {
+        id: "he8VGbfDWol6mWr5IxH0f",
+        avatar: "gpt-bot",
+        name: "lllll",
+        context: [],
+        syncGlobalConfig: true,
+        modelConfig: {
+          model: "gpt-3.5-turbo",
+          temperature: 0.5,
+          top_p: 1,
+          max_tokens: 2000,
+          presence_penalty: 0,
+          frequency_penalty: 0,
+          sendMemory: true,
+          historyMessageCount: 4,
+          compressMessageLengthThreshold: 1000,
+          enableInjectSystemPrompts: true,
+          template: "{{input}}",
+        },
+        lang: "tw",
+        builtin: false,
+        createdAt: 1696856255552,
+      },
+    };
+  } else {
+    return {};
+  }
+};
+
 export const DEFAULT_MASK_STATE = {
-  masks: {} as Record<string, Mask>,
+  // masks: {} as Record<string, Mask>,
+  masks: initMaskStore(),
 };
 
 export type MaskState = typeof DEFAULT_MASK_STATE;
@@ -46,7 +103,12 @@ export const createEmptyMask = () =>
     lang: getLang(),
     builtin: false,
     createdAt: Date.now(),
-  } as Mask);
+  }) as Mask;
+
+const getMaskStore = () => {
+  const store = localStorage.getItem("mask-store") || "";
+  console.log("mask-store:", JSON.parse(store));
+};
 
 export const useMaskStore = create<MaskStore>()(
   persist(
@@ -64,7 +126,7 @@ export const useMaskStore = create<MaskStore>()(
         };
 
         set(() => ({ masks }));
-
+        getMaskStore();
         return masks[id];
       },
       update(id, updater) {
@@ -75,11 +137,13 @@ export const useMaskStore = create<MaskStore>()(
         updater(updateMask);
         masks[id] = updateMask;
         set(() => ({ masks }));
+        getMaskStore();
       },
       delete(id) {
         const masks = get().masks;
         delete masks[id];
         set(() => ({ masks }));
+        getMaskStore();
       },
 
       get(id) {
@@ -99,7 +163,7 @@ export const useMaskStore = create<MaskStore>()(
                 ...config.modelConfig,
                 ...m.modelConfig,
               },
-            } as Mask),
+            }) as Mask,
         );
         return userMasks.concat(buildinMasks);
       },

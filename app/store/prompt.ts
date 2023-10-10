@@ -4,6 +4,7 @@ import Fuse from "fuse.js";
 import { getLang } from "../locales";
 import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
+import { getPromptStoreRequest } from "../api/contants";
 
 export interface Prompt {
   id: string;
@@ -62,12 +63,38 @@ export const SearchService = {
   },
 };
 
+const initPromptStore = async () => {
+  const res = await getPromptStoreRequest();
+  console.log("res...", res);
+
+  const flag = true;
+  if (flag) {
+    return {
+      "Itx3GtOs-EEolPnn4CdFp": {
+        id: "Itx3GtOs-EEolPnn4CdFp",
+        createdAt: 1696857025047,
+        title: "Empty Prompt111",
+        content: "Empty Prompt Content1111",
+        isUser: true,
+      },
+    };
+  } else {
+    return {};
+  }
+};
+
+const getPromptStore = () => {
+  const store = localStorage.getItem("prompt-store") || "";
+  console.log("prompt-store:", JSON.parse(store));
+};
+
 export const usePromptStore = create<PromptStore>()(
   persist(
     (set, get) => ({
       counter: 0,
       latestId: 0,
-      prompts: {},
+      // prompts: {},
+      prompts: initPromptStore(),
 
       add(prompt) {
         const prompts = get().prompts;
@@ -80,6 +107,7 @@ export const usePromptStore = create<PromptStore>()(
           latestId: prompt.id!,
           prompts: prompts,
         }));
+        getPromptStore();
 
         return prompt.id!;
       },
@@ -103,6 +131,7 @@ export const usePromptStore = create<PromptStore>()(
           prompts,
           counter: get().counter + 1,
         }));
+        getPromptStore();
       },
 
       getUserPrompts() {
@@ -125,6 +154,7 @@ export const usePromptStore = create<PromptStore>()(
         const prompts = get().prompts;
         prompts[id] = prompt;
         set(() => ({ prompts }));
+        getPromptStore();
         SearchService.add(prompt);
       },
 
@@ -171,7 +201,7 @@ export const usePromptStore = create<PromptStore>()(
                       title,
                       content,
                       createdAt: Date.now(),
-                    } as Prompt),
+                    }) as Prompt,
                 );
               },
             );
