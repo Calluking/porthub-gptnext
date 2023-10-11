@@ -95,7 +95,7 @@ export const getMaskStoreRequest = async () => {
 
 export const setMaskStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/storemask`, {
+  const res = await fetch(`${BASE_URL}/namecards/nextchatmask/storemask/`, {
     method: "post",
     headers: {
       Authorization: `Token ${token}`,
