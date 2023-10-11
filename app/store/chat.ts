@@ -245,12 +245,7 @@ export const useChatStore = create<ChatStore>()(
         }));
       },
       setInitSessions(sessions: any[]) {
-        set(() => {
-          return {
-            sessions: sessions,
-            currentSessionIndex: 0,
-          };
-        });
+        set(() => ({ sessions }));
       },
 
       selectSession(index: number) {
@@ -698,7 +693,7 @@ export const useChatStore = create<ChatStore>()(
         updater(sessions[index]);
         set(() => ({ sessions }));
 
-        getChatNextWebStore();
+        // getChatNextWebStore();
       },
 
       clearAllData() {
