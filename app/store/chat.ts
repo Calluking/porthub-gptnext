@@ -102,7 +102,10 @@ interface ChatStore {
   onUserInput: (content: string) => Promise<void>;
   summarizeSession: () => void;
   updateStat: (message: ChatMessage) => void;
-  updateCurrentSession: (updater: (session: ChatSession) => void) => void;
+  updateCurrentSession: (
+    updater: (session: ChatSession) => void,
+    isInit?: boolean,
+  ) => void;
   updateMessage: (
     sessionIndex: number,
     messageIndex: number,
@@ -687,13 +690,13 @@ export const useChatStore = create<ChatStore>()(
         });
       },
 
-      updateCurrentSession(updater) {
+      updateCurrentSession(updater, isInit: boolean = false) {
         const sessions = get().sessions;
         const index = get().currentSessionIndex;
         updater(sessions[index]);
         set(() => ({ sessions }));
 
-        // getChatNextWebStore();
+        !isInit && getChatNextWebStore();
       },
 
       clearAllData() {

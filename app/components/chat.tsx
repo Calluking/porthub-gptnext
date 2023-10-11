@@ -816,7 +816,7 @@ function _Chat() {
         console.log("[Mask] syncing from global, name = ", session.mask.name);
         session.mask.modelConfig = { ...config.modelConfig };
       }
-    });
+    }, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
