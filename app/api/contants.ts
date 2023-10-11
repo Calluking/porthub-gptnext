@@ -1,6 +1,6 @@
 const env = process.env.NODE_ENV;
-let BASE_URL = "https://dev-api.porthub.app";
-// const token = 'f14bba22dce1b55c0c10c6d3e614ce4769a52ab4'
+// let BASE_URL = "https://dev-api.porthub.app";
+let BASE_URL = "https://api.porthub.app";
 
 console.log("env:", env);
 // console.log("location.href:", location.href);
