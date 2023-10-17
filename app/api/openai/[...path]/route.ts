@@ -45,6 +45,25 @@ async function handle(
     );
   }
 
+  // req.headers.set("Authorization", `Token 64c3315934c490fcf7f2819d6560a9f8684f200f`);
+  let res = await fetch(
+    `http://127.0.0.1:8000/namecards/nextchatsession/checkcredit/`,
+    req,
+  );
+  let resJson = await res.json();
+  console.log("check credit res");
+  console.log("res.status", res.status);
+  console.log("resJson", resJson);
+  if (resJson["code"] != 200) {
+    return NextResponse.json(resJson["message"], {
+      status: resJson["code"],
+    });
+  }
+
+  const apiKey = await getkey(req);
+  console.log(apiKey);
+  req.headers.set("Authorization", `Bearer ${apiKey}`);
+
   const authResult = auth(req);
   if (authResult.error) {
     return NextResponse.json(authResult, {
@@ -75,3 +94,22 @@ export const GET = handle;
 export const POST = handle;
 
 export const runtime = "edge";
+
+const getkey = async (req: NextRequest) => {
+  // const token = localStorage.getItem("PORTHUB_TOKEN");
+  const authToken = req.headers.get("Authorization") ?? "";
+  console.log(authToken);
+  const token = authToken;
+  const res = await fetch(
+    `http://127.0.0.1:8000/namecards/nextchatsession/getkey/`,
+    {
+      headers: {
+        Authorization: `${authToken}`,
+      },
+    },
+  );
+  const resJson = await res.json();
+  console.log("#################################");
+  console.log(resJson);
+  return resJson["data"];
+};
