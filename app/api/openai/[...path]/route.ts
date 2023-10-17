@@ -93,14 +93,14 @@ export const runtime = "edge";
 
 const checkcredit = async (req: NextRequest) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
-  const authToken = req.headers.get("Authorization") ?? "";
+  const authToken = req.headers.get("Referer") ?? "";
   console.log("authToken:", authToken);
-  // const token = authToken;
+  const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   const res = await fetch(
     `https://dev-api.porthub.app/namecards/nextchatsession/checkcredit/`,
     {
       headers: {
-        Authorization: `${authToken}`,
+        Authorization: `Token ${token}`,
       },
     },
   );
@@ -110,14 +110,14 @@ const checkcredit = async (req: NextRequest) => {
 
 const getkey = async (req: NextRequest) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
-  const authToken = req.headers.get("Authorization") ?? "";
+  const authToken = req.headers.get("Referer") ?? "";
   console.log("authToken:", authToken);
-  // const token = authToken;
+  const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   const res = await fetch(
     `https://dev-api.porthub.app/namecards/nextchatsession/getkey/`,
     {
       headers: {
-        Authorization: `${authToken}`,
+        Authorization: `Token ${token}`,
       },
     },
   );
