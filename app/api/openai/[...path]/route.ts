@@ -46,17 +46,13 @@ async function handle(
   }
 
   // req.headers.set("Authorization", `Token 64c3315934c490fcf7f2819d6560a9f8684f200f`);
-  let res = await fetch(
-    `https://dev-api.porthub.app/namecards/nextchatsession/checkcredit/`,
-    req,
-  );
-  let resJson = await res.json();
+  let res = await checkcredit(req);
+  console.log(res);
   console.log("check credit res");
-  console.log("res.status", res.status);
-  console.log("resJson", resJson);
-  if (resJson["code"] != 200) {
-    return NextResponse.json(resJson["message"], {
-      status: resJson["code"],
+  console.log("resJson", res);
+  if (res["code"] != 200) {
+    return NextResponse.json(res["message"], {
+      status: res["code"],
     });
   }
 
@@ -94,6 +90,23 @@ export const GET = handle;
 export const POST = handle;
 
 export const runtime = "edge";
+
+const checkcredit = async (req: NextRequest) => {
+  // const token = localStorage.getItem("PORTHUB_TOKEN");
+  const authToken = req.headers.get("Authorization") ?? "";
+  console.log(authToken);
+  const token = authToken;
+  const res = await fetch(
+    `https://dev-api.porthub.app/namecards/nextchatsession/checkcredit/`,
+    {
+      headers: {
+        Authorization: `${authToken}`,
+      },
+    },
+  );
+  const resJson = await res.json();
+  return resJson;
+};
 
 const getkey = async (req: NextRequest) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
