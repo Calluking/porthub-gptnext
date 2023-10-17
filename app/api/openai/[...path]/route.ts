@@ -47,7 +47,7 @@ async function handle(
 
   // req.headers.set("Authorization", `Token 64c3315934c490fcf7f2819d6560a9f8684f200f`);
   let res = await fetch(
-    `http://127.0.0.1:8000/namecards/nextchatsession/checkcredit/`,
+    `https://dev-api.porthub.app/namecards/nextchatsession/checkcredit/`,
     req,
   );
   let resJson = await res.json();
@@ -101,7 +101,7 @@ const getkey = async (req: NextRequest) => {
   console.log(authToken);
   const token = authToken;
   const res = await fetch(
-    `http://127.0.0.1:8000/namecards/nextchatsession/getkey/`,
+    `https://dev-api.porthub.app/namecards/nextchatsession/getkey/`,
     {
       headers: {
         Authorization: `${authToken}`,
