@@ -5,7 +5,6 @@ import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "../../auth";
 import { requestOpenai } from "../../common";
-import { TRUE } from "sass";
 
 const ALLOWD_PATH = new Set(Object.values(OpenaiPath));
 
@@ -159,6 +158,6 @@ async function requestOpenaiWithRetry(
     //     }),
     //   },
     // );
-    return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
+    return requestOpenaiWithRetry(req, trytime + 1, subpath, token);
   }
 }
