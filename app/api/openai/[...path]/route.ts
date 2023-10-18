@@ -63,7 +63,6 @@ async function handle(
     },
   );
   const resJson = await res.json();
-  console.log(res);
   console.log("check credit res");
   console.log("resJson", res);
   if (resJson["code"] != 200) {
@@ -94,7 +93,6 @@ const getkey = async (req: NextRequest, token: any) => {
     },
   );
   const resJson = await res.json();
-  console.log(resJson);
   return resJson["data"];
 };
 
