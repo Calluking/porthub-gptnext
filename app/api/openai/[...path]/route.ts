@@ -107,7 +107,7 @@ async function requestOpenaiWithRetry(
   req.headers.set("Authorization", `Bearer ${apiKey}`);
   req.headers.set(
     "Authorization",
-    `Bearer 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`,
+    `Bearer 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`,
   );
 
   const authResult = auth(req);
