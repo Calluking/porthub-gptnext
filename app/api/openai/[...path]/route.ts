@@ -113,6 +113,9 @@ async function requestOpenaiWithRetry(
   const authResult = auth(req);
   if (authResult.error) {
     console.log("authResult.error");
+    return NextResponse.json(authResult, {
+      status: 401,
+    });
   }
   try {
     const response = await requestOpenai(req);
@@ -120,7 +123,7 @@ async function requestOpenaiWithRetry(
     console.log(
       "========================= request openai =============================",
     );
-    console.log(response.json());
+    console.log(response.status);
 
     // list models
     if (subpath === OpenaiPath.ListModelPath && response.status === 200) {
