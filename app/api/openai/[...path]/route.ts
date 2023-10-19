@@ -100,6 +100,19 @@ async function requestOpenaiWithRetry(
   token: any,
 ): Promise<NextResponse | Response> {
   if (trytime >= 10) {
+    const res = await fetch(
+      `https://dev-api.porthub.app/namecards/subscript/add_credit/`,
+      {
+        method: "post",
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          credit: 4,
+        }),
+      },
+    );
     return NextResponse.json("exceed max retry times", { status: 402 });
   }
   const apiKey = await getkey(req, token);
