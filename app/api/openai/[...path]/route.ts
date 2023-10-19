@@ -101,7 +101,7 @@ async function requestOpenaiWithRetry(
   trytime: any,
   subpath: any,
   token: any,
-) {
+): Promise<NextResponse | Response> {
   if (trytime >= 10) {
     return NextResponse.json("exceed max retry times", { status: 402 });
   }
@@ -156,6 +156,6 @@ async function requestOpenaiWithRetry(
     //     }),
     //   },
     // );
-    return requestOpenaiWithRetry(req, trytime + 1, subpath, token);
+    return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
   }
 }
