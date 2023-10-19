@@ -113,6 +113,7 @@ async function requestOpenaiWithRetry(
 
   const authResult = auth(req);
   if (authResult.error) {
+    console.log("authResult.error");
     return NextResponse.json(authResult, {
       status: 401,
     });
