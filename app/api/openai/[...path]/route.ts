@@ -81,7 +81,6 @@ export const runtime = "edge";
 
 const getkey = async (req: NextRequest, token: any) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
-  console.log("token: ", token);
   const res = await fetch(
     `https://dev-api.porthub.app/namecards/openaikey/getkey/`,
     {
@@ -114,21 +113,20 @@ async function requestOpenaiWithRetry(
   const authResult = auth(req);
   if (authResult.error) {
     console.log("authResult.error");
-    return NextResponse.json(authResult, {
-      status: 401,
-    });
   }
   try {
     const response = await requestOpenai(req);
+
+    console.log(
+      "========================= request openai =============================",
+    );
+    console.log(response.json());
 
     // list models
     if (subpath === OpenaiPath.ListModelPath && response.status === 200) {
       const resJson = (await response.json()) as OpenAIListModelResponse;
       const availableModels = getModels(resJson);
-      console.log(
-        "========================= request openai =============================",
-      );
-      console.log(resJson);
+
       // const res = await fetch(
       //   `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
       //   {
