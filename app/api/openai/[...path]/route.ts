@@ -123,7 +123,8 @@ async function requestOpenaiWithRetry(
     console.log(
       "========================= request openai =============================",
     );
-    console.log(response.status);
+    console.log("response.status:", response.status);
+    console.log(await response.json());
 
     // list models
     if (subpath === OpenaiPath.ListModelPath && response.status === 200) {
