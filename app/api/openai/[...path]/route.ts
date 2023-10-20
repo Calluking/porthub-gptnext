@@ -150,7 +150,7 @@ async function requestOpenaiWithRetry(
       return NextResponse.json(availableModels, {
         status: response.status,
       });
-    } else if (response.status === 401) {
+    } else {
       const res = await fetch(
         `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
         {
