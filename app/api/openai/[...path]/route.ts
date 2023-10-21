@@ -44,7 +44,6 @@ async function handle(
       },
     );
   }
-
   const authToken = req.headers.get("Referer") ?? "";
   console.log("authToken:", authToken);
   const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
@@ -58,7 +57,7 @@ async function handle(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        credit: 4,
+        credit: 1,
       }),
     },
   );
@@ -78,7 +77,6 @@ export const GET = handle;
 export const POST = handle;
 
 export const runtime = "edge";
-
 const getkey = async (req: NextRequest, token: any) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
   const res = await fetch(
@@ -109,7 +107,7 @@ async function requestOpenaiWithRetry(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          credit: 4,
+          credit: 1,
         }),
       },
     );
