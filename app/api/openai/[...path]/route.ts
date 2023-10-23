@@ -149,6 +149,8 @@ async function requestOpenaiWithRetry(
         status: response.status,
       });
     } else {
+      console.log("[requestOpenai]", response.status);
+      console.log(response);
       const res = await fetch(
         `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
         {
