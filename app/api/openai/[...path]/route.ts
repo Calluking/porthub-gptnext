@@ -135,41 +135,40 @@ async function requestOpenaiWithRetry(
       );
       const resJson = (await response.json()) as OpenAIListModelResponse;
       const availableModels = getModels(resJson);
-
-      // const res = await fetch(
-      //   `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
-      //   {
-      //     method: "post",
-      //     headers: {
-      //       Authorization: `Token ${token}`,
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       isSucceed: true,
-      //       openai_key: apiKey,
-      //     }),
-      //   },
-      // );
+      const res = await fetch(
+        `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
+        {
+          method: "post",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            isSucceed: true,
+            openai_key: apiKey,
+          }),
+        },
+      );
       return NextResponse.json(availableModels, {
         status: response.status,
       });
     } else if (response.status !== 200) {
       console.log("[requestOpenai]", response.status);
       console.log(response.text());
-      // const res = await fetch(
-      //   `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
-      //   {
-      //     method: "post",
-      //     headers: {
-      //       Authorization: `Token ${token}`,
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       isSucceed: false,
-      //       openai_key: apiKey,
-      //     }),
-      //   },
-      // );
+      const res = await fetch(
+        `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
+        {
+          method: "post",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            isSucceed: false,
+            openai_key: apiKey,
+          }),
+        },
+      );
       return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
     }
 
@@ -177,20 +176,20 @@ async function requestOpenaiWithRetry(
     return response;
   } catch (e) {
     console.error("[OpenAI] ", e);
-    // const res = await fetch(
-    //   `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
-    //   {
-    //     method: "post",
-    //     headers: {
-    //       Authorization: `Token ${token}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       isSucceed: false,
-    //       openai_key: apiKey,
-    //     }),
-    //   },
-    // );
+    const res = await fetch(
+      `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
+      {
+        method: "post",
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isSucceed: false,
+          openai_key: apiKey,
+        }),
+      },
+    );
     return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
   }
 }
