@@ -153,7 +153,7 @@ async function requestOpenaiWithRetry(
       return NextResponse.json(availableModels, {
         status: response.status,
       });
-    } else {
+    } else if (response.status !== 200) {
       console.log("[requestOpenai]", response.status);
       console.log(response.text());
       // const res = await fetch(
