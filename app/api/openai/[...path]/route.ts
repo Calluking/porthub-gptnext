@@ -127,7 +127,12 @@ async function requestOpenaiWithRetry(
   try {
     const response = await requestOpenai(req);
     // list models
+    console.log(subpath === OpenaiPath.ListModelPath);
+    console.log(response.status === 200);
     if (subpath === OpenaiPath.ListModelPath && response.status === 200) {
+      console.log(
+        "subpath === OpenaiPath.ListModelPath && response.status === 200",
+      );
       const resJson = (await response.json()) as OpenAIListModelResponse;
       const availableModels = getModels(resJson);
 
