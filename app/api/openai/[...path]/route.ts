@@ -114,7 +114,6 @@ async function requestOpenaiWithRetry(
     return NextResponse.json("exceed max retry times", { status: 402 });
   }
   const apiKey = await getkey(req, token);
-  console.log(apiKey);
   req.headers.set("Authorization", `Bearer ${apiKey}`);
 
   const authResult = auth(req);
@@ -125,6 +124,7 @@ async function requestOpenaiWithRetry(
     });
   }
   try {
+    console.log(apiKey);
     const response = await requestOpenai(req);
     // list models
     console.log(subpath === OpenaiPath.ListModelPath);
@@ -155,7 +155,7 @@ async function requestOpenaiWithRetry(
       });
     } else {
       console.log("[requestOpenai]", response.status);
-      console.log(response);
+      console.log(response.text);
       // const res = await fetch(
       //   `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
       //   {
