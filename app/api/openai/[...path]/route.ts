@@ -58,6 +58,7 @@ async function handle(
       },
       body: JSON.stringify({
         credit: 1,
+        operation: "mask gpt",
       }),
     },
   );
@@ -108,6 +109,7 @@ async function requestOpenaiWithRetry(
         },
         body: JSON.stringify({
           credit: 1,
+          operation: "mask gpt",
         }),
       },
     );
