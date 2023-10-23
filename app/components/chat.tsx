@@ -647,9 +647,12 @@ function _Chat() {
   }
 
   useEffect(() => {
-    const token = getQueryString("token");
+    localStorage.clear();
+    let token = getQueryString("token");
+    if (!token) {
+      token = localStorage.getItem("PORTHUB_TOKEN");
+    }
     console.log("token.....", token);
-
     if (token) {
       setToken(token.toString());
       localStorage.setItem("PORTHUB_TOKEN", token.toString());
