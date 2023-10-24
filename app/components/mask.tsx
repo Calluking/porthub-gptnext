@@ -599,7 +599,7 @@ export function MaskPage() {
                       } / ${m.modelConfig.model}`}
                     </div>
                     <div
-                      className={styles["mask-actions"]}
+                      className={styles["mask-actions"] + " mask-btn-list"}
                       style={{
                         marginTop: "10px",
                         gap: "5px",

@@ -1,0 +1,22 @@
+@media only screen and (max-width: 600px) {
+    .window-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .window-header-title {
+        margin-bottom: 10px;
+    }
+
+    .window-header-main-title {
+        text-align: left;
+    }
+
+    .phone-button {
+        padding: 10px !important;
+    }
+
+    .mask-btn-list {
+        justify-content: flex-start !important;
+    }
+}

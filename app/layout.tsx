@@ -2,6 +2,7 @@
 import "./styles/globals.scss";
 import "./styles/markdown.scss";
 import "./styles/highlight.scss";
+// import './styles/mask.scss';
 import { getClientConfig } from "./config/client";
 import { type Metadata } from "next";
 
