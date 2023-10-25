@@ -487,12 +487,12 @@ export function Settings() {
                 );
               }}
             >
-              {/* {Object.values(Theme).map((v) => (
+              {Object.values(Theme).map((v) => (
                 <option value={v} key={v}>
                   {v}
                 </option>
-              ))} */}
-              <option value={"Light"}>light</option>
+              ))}
+              {/* <option value={"Light"}>light</option> */}
             </Select>
           </ListItem>
 
