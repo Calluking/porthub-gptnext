@@ -51,11 +51,13 @@ async function handle(
   let token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   console.log("token: ", token);
   let baseurl = mainBaseUrl;
+
   if (token.includes("&env=DEV")) {
     console.log("env=dev");
     baseurl = devBaseUrl;
     token = authToken.replace("&env=DEV", "");
   }
+  console.log("token: ", token);
 
   const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
     method: "post",
