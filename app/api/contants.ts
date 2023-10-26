@@ -9,22 +9,22 @@ console.log("env:", env);
 //   BASE_URL = "https://api.porthub.app";
 // }
 
-// function getQueryString(name: string) {
-//   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-//   var r = window.location.search.substr(1).match(reg);
-//   if (r != null) {
-//     return unescape(r[2]);
-//   }
-//   return null;
-// }
+function getQueryString(name: string) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
 
 // const token = getQueryString("token");
 // console.log("token:", token);
 
 export const getChatStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  console.log("location.origin:", location.origin);
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(`${BASE_URL}/namecards/nextchatsession/getsession`, {
@@ -37,7 +37,8 @@ export const getChatStoreRequest = async () => {
 };
 export const setChatStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(
@@ -59,7 +60,8 @@ export const setChatStoreRequest = async (store: string) => {
 
 export const getPromptStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(`${BASE_URL}/namecards/nextchatpromots/getprompts/`, {
@@ -74,7 +76,8 @@ export const getPromptStoreRequest = async () => {
 
 export const setPromptStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(
@@ -96,7 +99,8 @@ export const setPromptStoreRequest = async (store: string) => {
 
 export const getMaskStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(`${BASE_URL}/namecards/nextchatmask/getmask/`, {
@@ -111,7 +115,8 @@ export const getMaskStoreRequest = async () => {
 
 export const setMaskStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
-  if (location.origin.includes("dev.porthub.app")) {
+  const env = getQueryString("env");
+  if (env === "DEV") {
     BASE_URL = "https://dev-api.porthub.app";
   }
   const res = await fetch(`${BASE_URL}/namecards/nextchatmask/storemask/`, {
