@@ -23,6 +23,9 @@ console.log("env:", env);
 
 export const getChatStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(`${BASE_URL}/namecards/nextchatsession/getsession`, {
     headers: {
       Authorization: `Token ${token}`,
@@ -33,6 +36,9 @@ export const getChatStoreRequest = async () => {
 };
 export const setChatStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(
     `${BASE_URL}/namecards/nextchatsession/storesession/`,
     {
@@ -52,6 +58,9 @@ export const setChatStoreRequest = async (store: string) => {
 
 export const getPromptStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(`${BASE_URL}/namecards/nextchatpromots/getprompts/`, {
     headers: {
       Authorization: `Token ${token}`,
@@ -64,6 +73,9 @@ export const getPromptStoreRequest = async () => {
 
 export const setPromptStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(
     `${BASE_URL}/namecards/nextchatpromots/storeprompts/`,
     {
@@ -83,6 +95,9 @@ export const setPromptStoreRequest = async (store: string) => {
 
 export const getMaskStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(`${BASE_URL}/namecards/nextchatmask/getmask/`, {
     headers: {
       Authorization: `Token ${token}`,
@@ -95,6 +110,9 @@ export const getMaskStoreRequest = async () => {
 
 export const setMaskStoreRequest = async (store: string) => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  if (location.origin.includes("dev.porthub.app")) {
+    BASE_URL = "https://dev-api.porthub.app";
+  }
   const res = await fetch(`${BASE_URL}/namecards/nextchatmask/storemask/`, {
     method: "post",
     headers: {
