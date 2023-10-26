@@ -667,6 +667,8 @@ function _Chat() {
           const data = JSON.parse(res.data);
           console.log("data.....", data);
           promptStore.prompts = data?.state?.prompts || {};
+        } else {
+          promptStore.prompts = {};
         }
       });
   }, [token]);
@@ -682,6 +684,8 @@ function _Chat() {
           chatStore.setInitSessions(data?.state?.sessions || []);
           // chatStore.sessions = data?.state?.sessions || [];
           console.log("int chat2:", chatStore.sessions);
+        } else {
+          chatStore.setInitSessions([]);
         }
       });
   }, [token]);
@@ -696,6 +700,8 @@ function _Chat() {
           console.log("data.....", data);
           maskStore.masks = data?.state?.masks || {};
           console.log("int mask2:", maskStore.masks);
+        } else {
+          maskStore.masks = {};
         }
       });
   }, [token]);
