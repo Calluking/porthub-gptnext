@@ -49,7 +49,7 @@ async function handle(
   const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   console.log("token: ", token);
   const res = await fetch(
-    `https://api.porthub.app/namecards/subscript/check_credit_status/`,
+    `https://dev-api.porthub.app/namecards/subscript/check_credit_status/`,
     {
       method: "post",
       headers: {
@@ -81,7 +81,7 @@ export const runtime = "edge";
 const getkey = async (req: NextRequest, token: any) => {
   // const token = localStorage.getItem("PORTHUB_TOKEN");
   const res = await fetch(
-    `https://api.porthub.app/namecards/openaikey/getkey/`,
+    `https://dev-api.porthub.app/namecards/openaikey/getkey/`,
     {
       headers: {
         Authorization: `Token ${token}`,
@@ -100,7 +100,7 @@ async function requestOpenaiWithRetry(
 ): Promise<NextResponse | Response> {
   if (trytime >= 10) {
     const res = await fetch(
-      `https://api.porthub.app/namecards/subscript/add_credit/`,
+      `https://dev-api.porthub.app/namecards/subscript/add_credit/`,
       {
         method: "post",
         headers: {
@@ -138,7 +138,7 @@ async function requestOpenaiWithRetry(
       const resJson = (await response.json()) as OpenAIListModelResponse;
       const availableModels = getModels(resJson);
       const res = await fetch(
-        `https://api.porthub.app/namecards/openaikey/markkey/`,
+        `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
         {
           method: "post",
           headers: {
@@ -156,9 +156,9 @@ async function requestOpenaiWithRetry(
       });
     } else if (response.status !== 200) {
       console.log("[requestOpenai]", response.status);
-      console.log(response.text());
+      console.log(response.statusText);
       const res = await fetch(
-        `https://api.porthub.app/namecards/openaikey/markkey/`,
+        `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
         {
           method: "post",
           headers: {
@@ -179,7 +179,7 @@ async function requestOpenaiWithRetry(
   } catch (e) {
     console.error("[OpenAI] ", e);
     const res = await fetch(
-      `https://api.porthub.app/namecards/openaikey/markkey/`,
+      `https://dev-api.porthub.app/namecards/openaikey/markkey/`,
       {
         method: "post",
         headers: {
