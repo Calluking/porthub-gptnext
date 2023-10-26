@@ -152,7 +152,7 @@ export function MaskConfig(props: {
             }}
           ></input>
         </ListItem>
-
+        {/* 
         {!props.shouldSyncFromGlobal ? (
           <ListItem
             title={Locale.Mask.Config.Share.Title}
@@ -164,9 +164,9 @@ export function MaskConfig(props: {
               onClick={copyMaskLink}
             />
           </ListItem>
-        ) : null}
+        ) : null} */}
 
-        {props.shouldSyncFromGlobal ? (
+        {/* {props.shouldSyncFromGlobal ? (
           <ListItem
             title={Locale.Mask.Config.Sync.Title}
             subTitle={Locale.Mask.Config.Sync.SubTitle}
@@ -192,16 +192,16 @@ export function MaskConfig(props: {
               }}
             ></input>
           </ListItem>
-        ) : null}
+        ) : null} */}
       </List>
 
-      <List>
+      {/* <List>
         <ModelConfigList
           modelConfig={{ ...props.mask.modelConfig }}
           updateConfig={updateConfig}
         />
         {props.extraListItems}
-      </List>
+      </List> */}
     </>
   );
 }
@@ -688,18 +688,18 @@ export function MaskPage() {
             title={Locale.Mask.EditModal.Title(editingMask?.builtin)}
             onClose={closeMaskModal}
             actions={[
-              <IconButton
-                icon={<DownloadIcon />}
-                text={Locale.Mask.EditModal.Download}
-                key="export"
-                bordered
-                onClick={() =>
-                  downloadAs(
-                    JSON.stringify(editingMask),
-                    `${editingMask.name}.json`,
-                  )
-                }
-              />,
+              // <IconButton
+              //   icon={<DownloadIcon />}
+              //   text={Locale.Mask.EditModal.Download}
+              //   key="export"
+              //   bordered
+              //   onClick={() =>
+              //     downloadAs(
+              //       JSON.stringify(editingMask),
+              //       `${editingMask.name}.json`,
+              //     )
+              //   }
+              // />,
               <IconButton
                 key="copy"
                 icon={<CopyIcon />}

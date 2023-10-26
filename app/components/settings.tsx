@@ -487,12 +487,12 @@ export function Settings() {
                 );
               }}
             >
-              {/* {Object.values(Theme).map((v) => (
+              {Object.values(Theme).map((v) => (
                 <option value={v} key={v}>
                   {v}
                 </option>
-              ))} */}
-              <option value={"Light"}>light</option>
+              ))}
+              {/* <option value={"Light"}>light</option> */}
             </Select>
           </ListItem>
 
@@ -630,7 +630,7 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <List>
+        {/* <List>
           {showAccessCode ? (
             <ListItem
               title={Locale.Settings.AccessCode.Title}
@@ -721,7 +721,7 @@ export function Settings() {
               }
             ></input>
           </ListItem>
-        </List>
+        </List> */}
 
         <SyncItems />
 
