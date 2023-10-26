@@ -685,7 +685,7 @@ function _Chat() {
           // chatStore.sessions = data?.state?.sessions || [];
           console.log("int chat2:", chatStore.sessions);
         } else {
-          chatStore.setInitSessions([]);
+          // chatStore.setInitSessions([]);
         }
       });
   }, [token]);
