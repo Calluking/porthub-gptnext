@@ -657,10 +657,6 @@ function _Chat() {
       setToken(token.toString());
       localStorage.setItem("PORTHUB_TOKEN", token.toString());
     }
-
-    return () => {
-      localStorage.clear();
-    };
   }, []);
 
   // init user prompt
