@@ -48,9 +48,14 @@ async function handle(
   }
   const authToken = req.headers.get("Referer") ?? "";
   console.log("authToken:", authToken);
-  const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
+  let token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   console.log("token: ", token);
   let baseurl = mainBaseUrl;
+  if (token.includes("&env=DEV")) {
+    baseurl = devBaseUrl;
+    token = authToken.replace("&env=DEV", "");
+  }
+
   const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
     method: "post",
     headers: {
@@ -65,30 +70,9 @@ async function handle(
   const resJson = await res.json();
   if (resJson["code"] != 200) {
     console.log(resJson["code"]);
-    if (resJson["code"] === 401) {
-      baseurl = devBaseUrl;
-      const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
-        method: "post",
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          credit: 1,
-          operation: "mask gpt",
-        }),
-      });
-      const resJson = await res.json();
-      if (resJson["code"] != 200) {
-        return NextResponse.json(resJson["message"], {
-          status: resJson["code"],
-        });
-      }
-    } else {
-      return NextResponse.json(resJson["message"], {
-        status: resJson["code"],
-      });
-    }
+    return NextResponse.json(resJson["message"], {
+      status: resJson["code"],
+    });
   }
   console.log(baseurl);
   let openaires = await requestOpenaiWithRetry(req, 0, subpath, token, baseurl);
