@@ -52,6 +52,7 @@ async function handle(
   console.log("token: ", token);
   let baseurl = mainBaseUrl;
   if (token.includes("&env=DEV")) {
+    console.log("env=dev");
     baseurl = devBaseUrl;
     token = authToken.replace("&env=DEV", "");
   }
