@@ -23,6 +23,7 @@ console.log("env:", env);
 
 export const getChatStoreRequest = async () => {
   const token = localStorage.getItem("PORTHUB_TOKEN");
+  console.log("location.origin:", location.origin);
   if (location.origin.includes("dev.porthub.app")) {
     BASE_URL = "https://dev-api.porthub.app";
   }
