@@ -5,6 +5,8 @@ import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "../../auth";
 import { requestOpenai } from "../../common";
+const devBaseUrl = "https://dev-api.porthub.app/namecards";
+const mainBaseUrl = "https://api.porthub.app/namecards";
 
 const ALLOWD_PATH = new Set(Object.values(OpenaiPath));
 
@@ -48,60 +50,24 @@ async function handle(
   console.log("authToken:", authToken);
   const token = authToken.replace("https://gptnext.porthub.app/?token=", "");
   console.log("token: ", token);
-  const res = await fetch(
-    `https://api.porthub.app/namecards/subscript/check_credit_status/`,
-    {
-      method: "post",
-      headers: {
-        Authorization: `Token ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        credit: 1,
-        operation: "mask gpt",
-      }),
+  let baseurl = mainBaseUrl;
+  const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
+    method: "post",
+    headers: {
+      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      credit: 1,
+      operation: "mask gpt",
+    }),
+  });
   const resJson = await res.json();
   if (resJson["code"] != 200) {
-    return NextResponse.json(resJson["message"], {
-      status: resJson["code"],
-    });
-  }
-
-  let openaires = await requestOpenaiWithRetry(req, 0, subpath, token);
-  console.log(openaires.status);
-  return openaires;
-}
-
-export const GET = handle;
-export const POST = handle;
-
-export const runtime = "edge";
-const getkey = async (req: NextRequest, token: any) => {
-  // const token = localStorage.getItem("PORTHUB_TOKEN");
-  const res = await fetch(
-    `https://api.porthub.app/namecards/openaikey/getkey/`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    },
-  );
-  const resJson = await res.json();
-  return resJson["data"];
-};
-
-async function requestOpenaiWithRetry(
-  req: NextRequest,
-  trytime: any,
-  subpath: any,
-  token: any,
-): Promise<NextResponse | Response> {
-  if (trytime >= 10) {
-    const res = await fetch(
-      `https://api.porthub.app/namecards/subscript/add_credit/`,
-      {
+    console.log(resJson["code"]);
+    if (resJson["code"] === 401) {
+      baseurl = devBaseUrl;
+      const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
         method: "post",
         headers: {
           Authorization: `Token ${token}`,
@@ -111,11 +77,62 @@ async function requestOpenaiWithRetry(
           credit: 1,
           operation: "mask gpt",
         }),
+      });
+      const resJson = await res.json();
+      if (resJson["code"] != 200) {
+        return NextResponse.json(resJson["message"], {
+          status: resJson["code"],
+        });
+      }
+    } else {
+      return NextResponse.json(resJson["message"], {
+        status: resJson["code"],
+      });
+    }
+  }
+  console.log(baseurl);
+  let openaires = await requestOpenaiWithRetry(req, 0, subpath, token, baseurl);
+  console.log(openaires.status);
+  return openaires;
+}
+
+export const GET = handle;
+export const POST = handle;
+
+export const runtime = "edge";
+const getkey = async (req: NextRequest, token: any, baseurl: any) => {
+  // const token = localStorage.getItem("PORTHUB_TOKEN");
+  const res = await fetch(`${baseurl}/openaikey/getkey/`, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+  const resJson = await res.json();
+  return resJson["data"];
+};
+
+async function requestOpenaiWithRetry(
+  req: NextRequest,
+  trytime: any,
+  subpath: any,
+  token: any,
+  baseurl: any,
+): Promise<NextResponse | Response> {
+  if (trytime >= 10) {
+    const res = await fetch(`${baseurl}/subscript/add_credit/`, {
+      method: "post",
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        credit: 1,
+        operation: "mask gpt",
+      }),
+    });
     return NextResponse.json("exceed max retry times", { status: 402 });
   }
-  const apiKey = await getkey(req, token);
+  const apiKey = await getkey(req, token, baseurl);
   req.headers.set("Authorization", `Bearer ${apiKey}`);
 
   const authResult = auth(req);
@@ -137,50 +154,24 @@ async function requestOpenaiWithRetry(
       );
       const resJson = (await response.json()) as OpenAIListModelResponse;
       const availableModels = getModels(resJson);
-      const res = await fetch(
-        `https://api.porthub.app/namecards/openaikey/markkey/`,
-        {
-          method: "post",
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            isSucceed: true,
-            openai_key: apiKey,
-          }),
+      const res = await fetch(`${baseurl}/openaikey/markkey/`, {
+        method: "post",
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          isSucceed: true,
+          openai_key: apiKey,
+        }),
+      });
       return NextResponse.json(availableModels, {
         status: response.status,
       });
     } else if (response.status !== 200) {
       console.log("[requestOpenai]", response.status);
-      console.log(response.text());
-      const res = await fetch(
-        `https://api.porthub.app/namecards/openaikey/markkey/`,
-        {
-          method: "post",
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            isSucceed: false,
-            openai_key: apiKey,
-          }),
-        },
-      );
-      return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
-    }
-
-    console.log("[request openai] response.status:", response.status);
-    return response;
-  } catch (e) {
-    console.error("[OpenAI] ", e);
-    const res = await fetch(
-      `https://api.porthub.app/namecards/openaikey/markkey/`,
-      {
+      console.log(response.statusText);
+      const res = await fetch(`${baseurl}/openaikey/markkey/`, {
         method: "post",
         headers: {
           Authorization: `Token ${token}`,
@@ -190,8 +181,37 @@ async function requestOpenaiWithRetry(
           isSucceed: false,
           openai_key: apiKey,
         }),
+      });
+      return await requestOpenaiWithRetry(
+        req,
+        trytime + 1,
+        subpath,
+        token,
+        baseurl,
+      );
+    }
+
+    console.log("[request openai] response.status:", response.status);
+    return response;
+  } catch (e) {
+    console.error("[OpenAI] ", e);
+    const res = await fetch(`${baseurl}/openaikey/markkey/`, {
+      method: "post",
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        isSucceed: false,
+        openai_key: apiKey,
+      }),
+    });
+    return await requestOpenaiWithRetry(
+      req,
+      trytime + 1,
+      subpath,
+      token,
+      baseurl,
     );
-    return await requestOpenaiWithRetry(req, trytime + 1, subpath, token);
   }
 }
