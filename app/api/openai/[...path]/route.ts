@@ -171,6 +171,10 @@ async function requestOpenaiWithRetry(
     } else if (response.status !== 200) {
       console.log("[requestOpenai]", response.status);
       console.log(response.statusText);
+      const errorResponse = await response.json();
+      const errorReason = errorResponse.error.message; // 提取错误原因
+
+      console.log("Error Reason:", errorReason);
       const res = await fetch(`${baseurl}/openaikey/markkey/`, {
         method: "post",
         headers: {
