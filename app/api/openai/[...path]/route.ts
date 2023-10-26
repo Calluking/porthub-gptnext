@@ -58,7 +58,7 @@ async function handle(
     token = authToken.replace("&env=DEV", "");
   }
   console.log("token: ", token);
-
+  console.log(baseurl);
   const res = await fetch(`${baseurl}/subscript/check_credit_status/`, {
     method: "post",
     headers: {
@@ -77,7 +77,6 @@ async function handle(
       status: resJson["code"],
     });
   }
-  console.log(baseurl);
   let openaires = await requestOpenaiWithRetry(req, 0, subpath, token, baseurl);
   console.log(openaires.status);
   return openaires;
