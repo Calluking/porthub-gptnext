@@ -3,7 +3,7 @@
 
 <h1 align="center">ChatGPT Next Web</h1>
 
-개인 ChatGPT 웹 애플리케이션을 한 번의 클릭으로 무료로 배포하세요.
+개인 ChatGPT 웹 애플리케이션을 한 번의 클릭으로 무료로 배포하세요...
 
 [데모 Demo](https://chat-gpt-next-web.vercel.app/) / [피드백 Issues](https://github.com/Yidadaa/ChatGPT-Next-Web/issues) / [Discord 참여](https://discord.gg/zrhvHCr79N) / [QQ 그룹](https://user-images.githubusercontent.com/16968934/228190818-7dd00845-e9b9-4363-97e5-44c507ac76da.jpeg) / [개발자에게 기부](https://user-images.githubusercontent.com/16968934/227772541-5bcd52d8-61b7-488c-a203-0330d8006e2b.jpg) / [기부 Donate](#기부-donate-usdt)
 
