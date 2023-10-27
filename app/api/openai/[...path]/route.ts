@@ -78,7 +78,7 @@ async function handle(
     });
   }
   let openaires = await requestOpenaiWithRetry(req, 0, subpath, token, baseurl);
-  console.log(openaires.status);
+  console.log("[openaires.status]", openaires.status);
   return openaires;
 }
 
