@@ -71,6 +71,7 @@ async function handle(
     }),
   });
   const resJson = await res.json();
+  console.log("[resJson] ", resJson["code"])
   if (resJson["code"] != 200) {
     console.log(resJson["code"]);
     return NextResponse.json(resJson["message"], {
