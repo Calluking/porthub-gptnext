@@ -130,6 +130,7 @@ async function requestOpenaiWithRetry(
   }
   try {
     console.log(apiKey);
+    console.log(apiKey);
     const response = await requestOpenai(req);
     // list models
     console.log(subpath === OpenaiPath.ListModelPath);
